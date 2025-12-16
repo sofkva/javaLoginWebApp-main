@@ -134,7 +134,7 @@
         <div class="menu-card">
             <h3>Manage Products</h3>
             <p>Add, edit, view, or delete shoe products from inventory</p>
-            <a href="product?action=list">Manage Inventory</a>
+            <a href="product_read.jsp">Manage Inventory</a>
         </div>
     </div>
 

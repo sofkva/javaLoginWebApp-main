@@ -1,11 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="entity.Product" %>
+<%@ page import="entity.ProductDAO" %>
+<%@ page import="java.util.Optional" %>
 <%
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("login.jsp");
         return;
     }
-    Product product = (Product) request.getAttribute("product");
+    // Get product ID from URL parameter
+    int productId = Integer.parseInt(request.getParameter("id"));
+    ProductDAO productDAO = new ProductDAO();
+    Optional<Product> productOpt = productDAO.get(productId);
+
+    if (!productOpt.isPresent()) {
+        response.sendRedirect("product_read.jsp");
+        return;
+    }
+    Product product = productOpt.get();
 %>
 <!DOCTYPE html>
 <html>
@@ -130,7 +141,7 @@
                     onclick="return confirm('Are you absolutely sure you want to delete this product?');">
                 Yes, Delete Product
             </button>
-            <a href="product?action=list" class="btn btn-secondary">Cancel</a>
+            <a href="product_read.jsp" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

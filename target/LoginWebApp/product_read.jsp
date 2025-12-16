@@ -1,12 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="entity.Product" %>
+<%@ page import="entity.ProductDAO" %>
 <%@ page import="java.util.List" %>
 <%
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("login.jsp");
         return;
     }
-    List<Product> products = (List<Product>) request.getAttribute("products");
+    // Load products directly in JSP
+    ProductDAO productDAO = new ProductDAO();
+    List<Product> products = productDAO.getAll();
+
+    // Debug: print to console
+    System.out.println("Number of products loaded: " + (products != null ? products.size() : "null"));
 %>
 <!DOCTYPE html>
 <html>
@@ -129,7 +135,7 @@
     <div class="header-actions">
         <h2>Product Management</h2>
         <div>
-            <a href="product?action=create" class="btn btn-primary">+ Add New Product</a>
+            <a href="product_create.jsp" class="btn btn-primary">+ Add New Product</a>
             <a href="index.jsp" class="btn btn-secondary">Back to Home</a>
         </div>
     </div>
@@ -140,7 +146,8 @@
         <div class="product-card">
             <img src="<%= product.getProductImageUrl() %>"
                  alt="<%= product.getProductName() %>"
-                 class="product-image">
+                 class="product-image"
+                 onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
 
             <div class="product-name"><%= product.getProductName() %></div>
 
@@ -160,9 +167,9 @@
             <div class="product-price">$<%= String.format("%.2f", product.getProductPrice()) %></div>
 
             <div class="product-actions">
-                <a href="product?action=edit&id=<%= product.getProductId() %>"
+                <a href="product_update.jsp?id=<%= product.getProductId() %>"
                    class="btn btn-edit">Edit</a>
-                <a href="product?action=delete&id=<%= product.getProductId() %>"
+                <a href="product_delete.jsp?id=<%= product.getProductId() %>"
                    class="btn btn-delete">Delete</a>
             </div>
         </div>
@@ -171,6 +178,7 @@
     <% } else { %>
     <div class="empty-message">
         <p>No products found. Click "Add New Product" to get started!</p>
+        <p style="color: red;">Products list is <%= (products == null ? "NULL" : "EMPTY") %></p>
     </div>
     <% } %>
 </div>

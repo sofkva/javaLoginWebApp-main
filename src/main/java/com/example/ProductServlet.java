@@ -121,7 +121,7 @@ public class ProductServlet extends HttpServlet {
         Product product = new Product(name, description, color, size, price, imageUrl);
         productDAO.insert(product);
 
-        response.sendRedirect("product?action=list");
+        response.sendRedirect("product_read.jsp");
     }
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response)
@@ -137,7 +137,7 @@ public class ProductServlet extends HttpServlet {
         Product product = new Product(id, name, description, color, size, price, imageUrl);
         productDAO.update(product);
 
-        response.sendRedirect("product?action=list");
+        response.sendRedirect("product_read.jsp");
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
@@ -149,6 +149,6 @@ public class ProductServlet extends HttpServlet {
             productDAO.delete(product.get());
         }
 
-        response.sendRedirect("product?action=list");
+        response.sendRedirect("product_read.jsp");
     }
 }
