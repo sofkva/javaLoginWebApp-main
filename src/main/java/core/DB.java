@@ -4,8 +4,9 @@ import org.flywaydb.core.Flyway;
 
 import java.sql.*;
 
+
 public class DB {
-    private static final String DB_URL = "jdbc:derby:shoestoredb;create=true;user=shoestoredb;password=shoestoredb";
+    private static final String DB_URL = "jdbc:derby:C:/shoestoredb;create=true;user=shoestoredb;password=shoestoredb";
     private static final String MIGRATION_DIR = "classpath:db.migrations";
     private static DB instance = null;
     private final Connection mConnection;
